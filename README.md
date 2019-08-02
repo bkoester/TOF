@@ -2,7 +2,7 @@
 Various tools for the transcript of the future and liberal arts characterization tools.
 
 ## Inputs
-These scripts one or sometimes two tables as inputs. We refer to one as the *student_course* table, and the other the *student record*. The tables are assumed to be cleaned, with the sample of students and courses already defined.
+These scripts take one or sometimes two tables as inputs. We refer to one as the *student_course* table, and the other the *student record*. The tables are assumed to be cleaned, with the sample of students and courses already defined.
 
 `student_course` (sc): This contains all student-courses, one line per student-course, as each student may take multiple courses. The courses that should be included are set but what is contained in this table. It must contain at least the following:
 * STDNT_ID: A unique integer student identifier
