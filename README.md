@@ -21,8 +21,8 @@ These scripts take one or sometimes two tables as inputs. We refer to one as the
 
 ## Basic Transcript Tools
 `division_credits_intensity.R:` How many credits were taken in different divisions and what was the intensity? This is probably currently too specific to Michigan at this point. <br/>
-`disciplinary_depth.R:` Was the course work broad/diverse? This creates a subject diversity index. <br/>
-`range_of_experience.R:` What were the formats of the courses and how diverse are they? Also, what is the average depth of the course work? <br/>
+`disciplinary_depth.R:` Was the course work broad/diverse? This creates a subject diversity index. See also *Pitt, Richard, Whitney N. Laster Pirtle, and Ashley Noel Metzger. 2019. “Academic Specialization, Double Majoring, and the Threat to Breadth in Academic Knowledge.” The Journal of General Education 66 (3-4): 166–91.* for possible future directions. <br/>
+`range_of_experience.R:` What were the formats of the courses and how diverse are they? Also, what is the average depth of the course work? The returns both a range of experience diversity index and also an average catalog depth. <br/>
 
 ## Higher Order Tools
 `student_course_fixed_effect.R:` How hard was it to get a good grade in a class and how did an individual do compared to peers on average? <br/>
