@@ -25,10 +25,10 @@ These scripts take one or sometimes two tables as inputs. We refer to one as the
 `range_of_experience.R:` What were the formats of the courses and how diverse are they? Also, what is the average depth of the course work? The returns both a range of experience diversity index and also an average catalog depth. <br/>
 
 ## Higher Order Tools
-`student_course_fixed_effect.R:` How hard was it to get a good grade in a class and how did an individual do compared to peers on average? <br/>
-`network_diversity.R:`Did you take classes with an academically diverse set of peers (that is, from different majors?) <br/>
+`student_course_fixed_effect.R:` How hard was it to get a good grade in a class and how did an individual do compared to peers on average? This returns both a course fixed effect (CFE) and student fixed effect (SFE). The SFE is assumed to be constant over the student's career, while CFEs may be averaged together for a student as an estimate of average course grading difficulty for courses taken by that student (this part is not yet done in the script). <br/>
+`network_diversity.R:` Did you take classes with an academically diverse set of peers (that is, from different majors?) <br/>
 
-## Similarities
+## Even Higher Order: Similarities
 `compute_pairwise_student_similarities.R:` Based on courses taken, which students are most similar? Which majors?  
 
 This script makes use of the R `coop` library, which speeds up the similarity calculation significantly over something more naive. Roughly speaking, on my Mac laptop this will compute compute similarities for abt 6500 students with 3000 courses on the order of a minute or so. I haven't really studied how it scales. Beware of blowing it up much beyond that due to both time and memory constraints. 
