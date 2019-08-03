@@ -1,6 +1,9 @@
 # TOF
 Various tools for the transcript of the future and liberal arts characterization tools. The main tables that these scripts require currenlty must be generated at individual insitutions. We describe the structure of the tables below and then draw attention to the most useful/advanced scripts in the repository, the others still being either too primitive or too 'local'.
 
+# Requirements
+ `library(tidyverse)`
+
 ## Inputs
 These scripts take one or sometimes two tables as inputs. We refer to one as the *student_course* table, and the other the *student record*. The tables are assumed to be cleaned, with the sample of students and courses already defined.
 
