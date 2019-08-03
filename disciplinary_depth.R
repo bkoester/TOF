@@ -1,3 +1,10 @@
+#computes the diversity of subjects taken by student over the career
+#uses both the student record and student course tables, returning 
+#student record table with the following added:
+#1) SUBDIV: the student's subject diversity over the career
+#2) FAVSUB: the SBJCT_CD of the subject with the most credit hours
+#3) MAXsUB: the number of courses taken in the maximum subject
+#4) FRACSUB: the fraction of courses that are MAXSUB
 disciplinary.depth <- function(sr,sc)
 {
   

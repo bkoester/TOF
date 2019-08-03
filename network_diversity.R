@@ -1,3 +1,16 @@
+#this computes the total diversity of each students' classmates by 
+#1) computing the diversity of majors in a course
+#2) matching these to each student
+#3) computing the mean of the course diversities for each student
+#4) return the student course table with the COURSE_DIV (course diversity) and 
+#5) CUM_MAJOR_DIV colums added
+#sr = student record, requires:
+#STDNT_ID
+#UM_DGR_1_MAJOR_1_DES
+#sc = student course requires:
+#TERM_CD
+#CLASS_NBR
+#
 network.diversity <- function(sr,sc)
 {
   DEG <- sr %>% group_by(UM_DGR_1_MAJOR_1_DES) %>% select(UM_DGR_1_MAJOR_1_DES) %>% distinct() 
@@ -13,7 +26,8 @@ network.diversity <- function(sr,sc)
   
   sc <- left_join(sc,CLASS_NBR)
   
-  #This gives us mean major diversity
+  #This gives us mean major diversity for each course, and then compute the 
+  #mean for each student.
   sc <- sc %>% arrange(TERM_CD) %>% group_by(STDNT_ID) %>% mutate(CUM_MAJOR_DIV = cummean(COURSE_DIV))
   
   #Now for mean subject diversity

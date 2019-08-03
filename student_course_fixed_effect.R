@@ -1,9 +1,16 @@
-#this is set up to run on the LARC student-course table "sc", formatted as a tibble (sc <- as_tibble(sc))
-#all statistics are weighted by credits (UNITS_ENRD_NBR)
-#to do, fiddle with:
-#1) correct business school plus grades from +0.4 -> +0.3. This biases their SFEs upward.
-#2) compute SFEs on the basis of just high enrollment courses.
+#Notes:
+#1) This is set up to run on the LARC student-course table "sc", 
+#   formatted as a tibble (sc <- as_tibble(sc)).
+#2)  But, it works on any student-course table (each row contains a student-course)
 #
+#Required columns in the SC table
+#STDNT_ID: an integer particular to a student
+#CLASS_NBR: a unique identifier for a course
+#TERM_CD: an integer code specifying a particular university term
+#GRD_PNTS_PER_UNIT_NBR: grade received by student in class 
+#UNITS_ERND_NBR: credits received in class.
+#
+#####################
 student_course_fixed_effect <- function(sc,tol=0.01)
 {
   library(tidyverse)
@@ -48,8 +55,10 @@ student_course_fixed_effect <- function(sc,tol=0.01)
     while ((a_diff_max > tol) | (k_diff_max > tol))
     {
       
-      kt  <- kt %>% group_by(STDNT_ID)  %>% mutate(k=weighted.mean(GRD_PNTS_PER_UNIT_NBR-a,UNITS_ERND_NBR,na.rm=TRUE)) %>% ungroup()
-      kt  <- kt %>% group_by(CLASS_NBR) %>% mutate(a=weighted.mean(GRD_PNTS_PER_UNIT_NBR-k,UNITS_ERND_NBR,na.rm=TRUE)) %>% ungroup()
+        kt  <- kt %>% group_by(STDNT_ID)  %>%
+               mutate(k=weighted.mean(GRD_PNTS_PER_UNIT_NBR-a,UNITS_ERND_NBR,na.rm=TRUE)) %>% ungroup()
+        kt  <- kt %>% group_by(CLASS_NBR) %>%
+               mutate(a=weighted.mean(GRD_PNTS_PER_UNIT_NBR-k,UNITS_ERND_NBR,na.rm=TRUE)) %>% ungroup()
       
       kdiff <- abs(kt$k-kt$k_old)
       adiff <- abs(kt$a-kt$a_old)

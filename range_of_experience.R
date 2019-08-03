@@ -1,3 +1,10 @@
+#tcompute statistics of the distribution of course formats.
+#this takes both the student record (sr) and student course (data)
+#it returns the following:
+#DEPTH  = average catalog depth
+#FMT1_FRAC = the maximum fraction of coursework devoted to a particular format
+#MAX_FORMAT = the format with the largest fraction of students credits
+#
 range.of.experience <- function(sr,data)
 {
   
@@ -54,7 +61,7 @@ range.of.experience <- function(sr,data)
       if (ntyp >= 5){FMT5[i] <- as.character(tab$CRSE_CMPNT_CD[5]); FMT5_FRAC[i] <- tab$UNITS_ERND_NBR[5]}
     
       tab2 <- table(as.character(data$CATFLAG[ind]))
-      DEPTH[i] <- sum(as.numeric(names(tab2))*as.numeric(tab2))/sum(as.numeric(tab2))
+      DEPTH[i] <- sum(as.numeric(names(tab2))*as.numeric(tab2))/sum(as.numeric(tab2)) #the simple depth calculation
     }
   }
   
@@ -69,6 +76,7 @@ range.of.experience <- function(sr,data)
   
 }
 
+#compute the number students in each class
 compute.enrollment <- function(data)
 {
 
