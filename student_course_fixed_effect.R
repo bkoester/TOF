@@ -1,8 +1,11 @@
 #Notes:
 #1) This is set up to run on the LARC student-course table "sc", 
-#   formatted as a tibble (sc <- as_tibble(sc)).
-#2)  But, it works on any student-course table (each row contains a student-course)
-#
+#   formatted as a tibble (sc <- as_tibble(sc)). 
+#2)  It takes the 'sr' table as well 
+#   so that the appropriate columns can be added and returned
+#3) this runs slow because actually computes the SFE for a student each term
+#4) the tolerance for convergence is 0.01 grade points by default.
+#   run it faster for testing by setting tol=0.1. tol=0.01 is recommended.
 #Required columns in the SC table
 #STDNT_ID: an integer particular to a student
 #CLASS_NBR: a unique identifier for a course
@@ -11,7 +14,7 @@
 #UNITS_ERND_NBR: credits received in class.
 #
 #####################
-student_course_fixed_effect <- function(sc,tol=0.01)
+student_course_fixed_effect <- function(sr,sc,tol=0.01)
 {
   library(tidyverse)
   
@@ -24,6 +27,7 @@ student_course_fixed_effect <- function(sc,tol=0.01)
   ADJGRD  <- mat.or.vec(dim(sc)[1],1)
   TERM_CD <- sc$TERM_CD
   STDNT_ID <- sc$STDNT_ID
+  UNITS_ERND_NBR <- sc$UNITS_ERND_NBR
   
   for (i in 1:NTERM)
   {
@@ -90,8 +94,18 @@ student_course_fixed_effect <- function(sc,tol=0.01)
     
   }
   
-  data <- as_tibble(data.frame(SFE,CFE,CMEAN,STDMEAN,ADJGRD,TERM_CD,STDNT_ID))
+  data <- as_tibble(data.frame(SFE,CFE,CMEAN,STDMEAN,ADJGRD,TERM_CD,STDNT_ID,UNITS_ERND_NBR))
   
-  return(data)
+  #now compute student career SFE and CFE.
+  data <- data %>% group_by(STDNT_ID) %>% 
+          mutate(EFFORT=sum(CFE*UNITS_ERND_NBR)/sum(UNITS_ERND_NBR)) %>% ungroup()
+  data <- data %>% group_by(STDNT_ID) %>% arrange(desc(TERM_CD)) %>% 
+          filter(row_number() == 1) %>% ungroup()
+  data <- data %>% select(STDNT_ID,EFFORT,SFE)
+  #View(data)
+  
+  sr   <- sr %>% left_join(data)
+  
+  return(sr)
   
 }
